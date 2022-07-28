@@ -13,6 +13,6 @@ public class Book {
     private String id;
 
     private String author;
-    private int pageCount;
+    private int pages;
     private String title;
 }
