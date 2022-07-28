@@ -6,6 +6,7 @@ import me.tamasrigoczki.bookCatalogApi.model.entity.Book;
 import me.tamasrigoczki.bookCatalogApi.service.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,5 +22,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addBook(@Valid @RequestBody BookDto bookDto) {
         bookService.addBook(new ModelMapper().map(bookDto, Book.class));
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BookDto> getBookById(@PathVariable String id) {
+        return ResponseEntity.ok(new ModelMapper().map(bookService.getById(id),
+                BookDto.class));
     }
 }
