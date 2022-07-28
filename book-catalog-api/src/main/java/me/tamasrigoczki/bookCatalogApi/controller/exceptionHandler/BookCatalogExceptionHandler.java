@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 public class BookCatalogExceptionHandler
         extends ResponseEntityExceptionHandler {
@@ -33,15 +35,16 @@ public class BookCatalogExceptionHandler
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .findFirst()
                 .orElse(ex.getMessage());
-        return response(ex, request, HttpStatus.BAD_REQUEST, errorMessage);
-    }
 
-    private ResponseEntity<Object> response(Exception ex, WebRequest request,
-                                            HttpStatus status,
-                                            String message) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cause", message);
+        headers.add("Cause", errorMessage);
+
         return new ResponseEntity<>(null, headers, status);
     }
 
+    @ExceptionHandler(value = {NoSuchElementException.class})
+    protected ResponseEntity<Object> handleNoContent(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, null,
+                new HttpHeaders(), HttpStatus.NO_CONTENT, request);
+    }
 }
