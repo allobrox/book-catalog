@@ -18,4 +18,8 @@ public class BookService {
             bookRepository.save(book);
         }
     }
+
+    public Book getById(String id){
+        return bookRepository.findById(id).orElseThrow();
+    }
 }
