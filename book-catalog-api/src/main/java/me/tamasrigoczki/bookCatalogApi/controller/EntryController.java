@@ -24,7 +24,7 @@ public class EntryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookEntryDto> createEntry(@RequestBody
-                                                   CreateBookEntryDto bookEntryDto) {
+                                                    CreateBookEntryDto bookEntryDto) {
 
         BookEntry bookEntry = modelMapper.map(bookEntryDto, BookEntry.class);
         BookEntry savedEntry = bookEntryService.saveBookEntry(bookEntry);
@@ -55,5 +55,11 @@ public class EntryController {
     public ResponseEntity<BookEntryDto> getEntryById(@PathVariable Long id) {
         return ResponseEntity.ok(modelMapper.map(bookEntryService.getById(id),
                 BookEntryDto.class));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteEntry(@PathVariable Long id) {
+        bookEntryService.deleteEntry(id);
     }
 }

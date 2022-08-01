@@ -22,13 +22,10 @@ public class BookEntryService {
 
     public void modifyBookEntry(BookEntry entry) {
         final Long entryId = entry.getId();
-        if (entryId == null) {
-            throw new NoSuchElementException("Can't modify entry without ID!");
-        }
-        if (!bookEntryRepository.existsById(entryId)) {
-            throw new NoSuchElementException(String.format("Entry not " +
-                    "exists! ID: %d", entryId));
-        }
+        checkEntryExists(
+                entryId == null || !bookEntryRepository.existsById(entryId),
+                String.format("Entry not " +
+                        "exists! ID: %d", entryId));
 
         bookEntryRepository.save(entry);
     }
@@ -38,14 +35,27 @@ public class BookEntryService {
         book.setId(bookId);
         List<BookEntry> bookEntriesByBook =
                 bookEntryRepository.getBookEntriesByBook(book);
-        if (CollectionUtils.isEmpty(bookEntriesByBook)) {
-            throw new NoSuchElementException(String.format("No entries for " +
-                    "book with ID: %s", bookId));
-        }
+        checkEntryExists(CollectionUtils.isEmpty(bookEntriesByBook),
+                String.format("No entries for " +
+                        "book with ID: %s", bookId));
         return bookEntriesByBook;
     }
 
     public BookEntry getById(Long entryId) {
         return bookEntryRepository.findById(entryId).orElseThrow();
+    }
+
+    public void deleteEntry(Long entryId) {
+        checkEntryExists(!bookEntryRepository.existsById(entryId),
+                String.format("Entry not " +
+                        "exists! ID: %d", entryId));
+
+        bookEntryRepository.deleteById(entryId);
+    }
+
+    private void checkEntryExists(boolean entryExists, String entryId) {
+        if (entryExists) {
+            throw new NoSuchElementException(entryId);
+        }
     }
 }
