@@ -11,10 +11,8 @@ import javax.validation.constraints.NotBlank;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class BookEntryDto {
+public class CreateBookEntryDto {
 
-    @NotBlank(message = "id is mandatory")
-    private Long id;
     @NotBlank(message = "bookId is mandatory")
     private String bookId;
     @NotBlank(message = "day is mandatory (yyyy-MM-dd)")

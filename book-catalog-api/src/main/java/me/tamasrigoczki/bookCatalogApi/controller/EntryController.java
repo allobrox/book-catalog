@@ -2,6 +2,7 @@ package me.tamasrigoczki.bookCatalogApi.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.tamasrigoczki.bookCatalogApi.model.dto.BookEntryDto;
+import me.tamasrigoczki.bookCatalogApi.model.dto.CreateBookEntryDto;
 import me.tamasrigoczki.bookCatalogApi.model.entity.BookEntry;
 import me.tamasrigoczki.bookCatalogApi.service.BookEntryService;
 import org.modelmapper.ModelMapper;
@@ -23,13 +24,20 @@ public class EntryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookEntryDto> createBook(@RequestBody
-                                                   BookEntryDto bookEntryDto) {
+                                                   CreateBookEntryDto bookEntryDto) {
 
         BookEntry bookEntry = modelMapper.map(bookEntryDto, BookEntry.class);
         BookEntry savedEntry = bookEntryService.saveBookEntry(bookEntry);
         BookEntryDto dto = modelMapper.map(savedEntry, BookEntryDto.class);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void modifyEntry(@RequestBody BookEntryDto bookEntryDto) {
+        bookEntryService.modifyBookEntry(modelMapper.map(bookEntryDto,
+                BookEntry.class));
     }
 
     @GetMapping

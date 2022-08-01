@@ -1,8 +1,10 @@
 package me.tamasrigoczki.bookCatalogApi.configuration;
 
 import me.tamasrigoczki.bookCatalogApi.model.dto.BookEntryDto;
+import me.tamasrigoczki.bookCatalogApi.model.dto.CreateBookEntryDto;
 import me.tamasrigoczki.bookCatalogApi.model.entity.Book;
 import me.tamasrigoczki.bookCatalogApi.model.entity.BookEntry;
+import me.tamasrigoczki.bookCatalogApi.model.enums.ProgressType;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -23,32 +25,23 @@ public class ModelMapperConfig {
 
     private void configureModelMapper(ModelMapper modelMapper) {
         modelMapper.createTypeMap(BookEntryDto.class, BookEntry.class)
-                .setConverter(createEntryDtoToEntityConverter());
+                .setConverter(entryDtoToEntityConverter());
         modelMapper.createTypeMap(BookEntry.class, BookEntryDto.class)
-                .setConverter(createEntryEntityToDtoConverter());
+                .setConverter(entryEntityToDtoConverter());
+        modelMapper.createTypeMap(CreateBookEntryDto.class, BookEntry.class)
+                .setConverter(createEntryDtoToEntityConverter());
     }
 
-    private Converter<BookEntryDto, BookEntry> createEntryDtoToEntityConverter() {
+    private Converter<BookEntryDto, BookEntry> entryDtoToEntityConverter() {
         return context -> {
-            BookEntry bookEntry = new BookEntry();
             BookEntryDto dto = context.getSource();
-            try {
-                Book book = new Book();
-                book.setId(dto.getBookId());
-                bookEntry.setBook(book);
-                bookEntry.setCreated_at(
-                        new SimpleDateFormat("yyyy-MM-dd").parse(
-                                dto.getDay()));
-                bookEntry.setProgress(dto.getProgress());
-                bookEntry.setProgressType(dto.getProgressType());
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-            return bookEntry;
+            return bookEntryConverter(dto.getId(), dto.getBookId(),
+                    dto.getDay(),
+                    dto.getProgress(), dto.getProgressType());
         };
     }
 
-    private Converter<BookEntry, BookEntryDto> createEntryEntityToDtoConverter() {
+    private Converter<BookEntry, BookEntryDto> entryEntityToDtoConverter() {
         return context -> {
             BookEntryDto dto = new BookEntryDto();
             BookEntry bookEntry = context.getSource();
@@ -61,5 +54,36 @@ public class ModelMapperConfig {
 
             return dto;
         };
+    }
+
+    private Converter<CreateBookEntryDto, BookEntry> createEntryDtoToEntityConverter() {
+        return context -> {
+            CreateBookEntryDto dto = context.getSource();
+            return bookEntryConverter(null, dto.getBookId(),
+                    dto.getDay(),
+                    dto.getProgress(),
+                    dto.getProgressType());
+        };
+    }
+
+    private BookEntry bookEntryConverter(
+            Long entryId, String bookId,
+            String day, int progress,
+            ProgressType progressType) {
+        BookEntry bookEntry = new BookEntry();
+        try {
+            Book book = new Book();
+            book.setId(bookId);
+            bookEntry.setId(entryId);
+            bookEntry.setBook(book);
+            bookEntry.setCreated_at(
+                    new SimpleDateFormat("yyyy-MM-dd").parse(
+                            day));
+            bookEntry.setProgress(progress);
+            bookEntry.setProgressType(progressType);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return bookEntry;
     }
 }

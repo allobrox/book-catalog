@@ -20,6 +20,19 @@ public class BookEntryService {
         return bookEntryRepository.save(entity);
     }
 
+    public void modifyBookEntry(BookEntry entry) {
+        final Long entryId = entry.getId();
+        if (entryId == null) {
+            throw new NoSuchElementException("Can't modify entry without ID!");
+        }
+        if (!bookEntryRepository.existsById(entryId)) {
+            throw new NoSuchElementException(String.format("Entry not " +
+                    "exists! ID: %d", entryId));
+        }
+
+        bookEntryRepository.save(entry);
+    }
+
     public List<BookEntry> getByBookId(String bookId) {
         Book book = new Book();
         book.setId(bookId);
