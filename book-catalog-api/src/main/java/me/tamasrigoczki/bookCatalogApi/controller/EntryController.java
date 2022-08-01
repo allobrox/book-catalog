@@ -23,7 +23,7 @@ public class EntryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BookEntryDto> createBook(@RequestBody
+    public ResponseEntity<BookEntryDto> createEntry(@RequestBody
                                                    CreateBookEntryDto bookEntryDto) {
 
         BookEntry bookEntry = modelMapper.map(bookEntryDto, BookEntry.class);
