@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class BookDto {
 
-    @NotBlank(message = "ID is mandatory")
+    @NotBlank(message = "id is mandatory")
     private String id;
     @NotBlank(message = "Author is mandatory")
     private String author;
