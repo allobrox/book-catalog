@@ -12,11 +12,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class BookDto {
 
-    @NotBlank(message = "ID is mandatory")
-    private String id;
+    @NotBlank(message = "Book ID is mandatory")
+    private String bookId;
     @NotBlank(message = "Author is mandatory")
     private String author;
-    @Min(value = 1,message = "Pages must be greater than 0")
+    @Min(value = 1, message = "Pages must be greater than 0")
     private int pages;
     @NotBlank(message = "Title is mandatory")
     private String title;
