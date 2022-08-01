@@ -31,4 +31,8 @@ public class BookEntryService {
         }
         return bookEntriesByBook;
     }
+
+    public BookEntry getById(Long entryId) {
+        return bookEntryRepository.findById(entryId).orElseThrow();
+    }
 }

@@ -32,7 +32,7 @@ public class EntryController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<BookEntryDto>> getEntriesForBook(
             @RequestParam("bookId") String bookId) {
@@ -40,5 +40,12 @@ public class EntryController {
                 .map(entity -> modelMapper.map(entity, BookEntryDto.class))
                 .collect(
                         Collectors.toList()));
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BookEntryDto> getEntryById(@PathVariable Long id) {
+        return ResponseEntity.ok(modelMapper.map(bookEntryService.getById(id),
+                BookEntryDto.class));
     }
 }
