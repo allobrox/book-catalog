@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/entry")
 @RequiredArgsConstructor
@@ -27,5 +30,15 @@ public class EntryController {
         BookEntryDto dto = modelMapper.map(savedEntry, BookEntryDto.class);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<BookEntryDto>> getEntriesForBook(
+            @RequestParam("bookId") String bookId) {
+        return ResponseEntity.ok(bookEntryService.getByBookId(bookId).stream()
+                .map(entity -> modelMapper.map(entity, BookEntryDto.class))
+                .collect(
+                        Collectors.toList()));
     }
 }
