@@ -17,17 +17,18 @@ import javax.validation.Valid;
 public class BookController {
 
     private final BookService bookService;
+    private final ModelMapper modelMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addBook(@Valid @RequestBody BookDto bookDto) {
-        bookService.addBook(new ModelMapper().map(bookDto, Book.class));
+        bookService.addBook(modelMapper.map(bookDto, Book.class));
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BookDto> getBookById(@PathVariable String id) {
-        return ResponseEntity.ok(new ModelMapper().map(bookService.getById(id),
+        return ResponseEntity.ok(modelMapper.map(bookService.getById(id),
                 BookDto.class));
     }
 }
