@@ -16,6 +16,7 @@ public class CreateBookDto {
     private String id;
     @NotBlank(message = "Author is mandatory")
     private String author;
+    private Long collectionId;
     @Min(value = 1, message = "Pages must be greater than 0")
     private int pages;
     @NotBlank(message = "Title is mandatory")
