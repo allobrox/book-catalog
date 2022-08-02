@@ -7,6 +7,7 @@ import me.tamasrigoczki.bookCatalogApi.repository.BookRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
@@ -33,6 +34,10 @@ public class BookService {
 
     public Book getById(String id) {
         return bookRepository.findById(id).orElseThrow();
+    }
+
+    public List<Book> getByCollectionId(Long collectionId) {
+        return bookRepository.findAllByCollectionId(collectionId).orElseThrow();
     }
 
     public void deleteBook(String bookId) {
