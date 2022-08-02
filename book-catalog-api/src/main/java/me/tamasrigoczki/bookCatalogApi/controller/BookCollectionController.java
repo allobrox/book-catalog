@@ -34,4 +34,11 @@ public class BookCollectionController {
 
         return ResponseEntity.ok(responseBody);
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BookCollectionDto> getBookCollectionById(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(bookCollectionService.getByIdWithBooks(id));
+    }
 }
