@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class EntryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BookEntryDto> createEntry(@RequestBody
+    public ResponseEntity<BookEntryDto> createEntry(@Valid @RequestBody
                                                     CreateBookEntryDto bookEntryDto) {
 
         BookEntry bookEntry = modelMapper.map(bookEntryDto, BookEntry.class);
@@ -35,7 +36,7 @@ public class EntryController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void modifyEntry(@RequestBody BookEntryDto bookEntryDto) {
+    public void modifyEntry(@Valid @RequestBody BookEntryDto bookEntryDto) {
         bookEntryService.modifyBookEntry(modelMapper.map(bookEntryDto,
                 BookEntry.class));
     }
