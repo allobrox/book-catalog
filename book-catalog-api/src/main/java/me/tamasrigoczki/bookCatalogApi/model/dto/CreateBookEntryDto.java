@@ -7,6 +7,7 @@ import me.tamasrigoczki.bookCatalogApi.model.enums.ProgressType;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
 @Getter
@@ -19,6 +20,6 @@ public class CreateBookEntryDto {
     private String day;
     @Min(value = 0, message = "progress must be at least 0")
     private int progress;
-    @NotBlank(message = "progressType is mandatory")
+    @NotNull(message = "progressType is mandatory")
     private ProgressType progressType;
 }

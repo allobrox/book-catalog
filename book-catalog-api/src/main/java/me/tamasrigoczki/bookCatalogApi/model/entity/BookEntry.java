@@ -26,7 +26,7 @@ public class BookEntry {
 
     private int progress;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ProgressType progressType;
 
 
