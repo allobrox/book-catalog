@@ -2,6 +2,7 @@ package me.tamasrigoczki.bookCatalogApi.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.tamasrigoczki.bookCatalogApi.model.dto.BookDto;
+import me.tamasrigoczki.bookCatalogApi.model.dto.CreateBookDto;
 import me.tamasrigoczki.bookCatalogApi.model.entity.Book;
 import me.tamasrigoczki.bookCatalogApi.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBook(@Valid @RequestBody BookDto bookDto) {
+    public void createBook(@Valid @RequestBody CreateBookDto bookDto) {
         bookService.addBook(modelMapper.map(bookDto, Book.class));
     }
 

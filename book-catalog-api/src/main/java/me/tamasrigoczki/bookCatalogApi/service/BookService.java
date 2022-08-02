@@ -2,6 +2,7 @@ package me.tamasrigoczki.bookCatalogApi.service;
 
 import lombok.AllArgsConstructor;
 import me.tamasrigoczki.bookCatalogApi.model.entity.Book;
+import me.tamasrigoczki.bookCatalogApi.model.enums.BookStatus;
 import me.tamasrigoczki.bookCatalogApi.repository.BookRepository;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class BookService {
         if (bookRepository.existsById(book.getId())) {
             throw new IllegalArgumentException(book.getId());
         } else {
+            book.setStatus(BookStatus.TO_READ);
             bookRepository.save(book);
         }
     }

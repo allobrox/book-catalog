@@ -1,8 +1,11 @@
 package me.tamasrigoczki.bookCatalogApi.model.entity;
 
 import lombok.Data;
+import me.tamasrigoczki.bookCatalogApi.model.enums.BookStatus;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Entity
@@ -14,5 +17,8 @@ public class Book {
 
     private String author;
     private int pages;
+
+    @Enumerated(EnumType.STRING)
+    private BookStatus status;
     private String title;
 }

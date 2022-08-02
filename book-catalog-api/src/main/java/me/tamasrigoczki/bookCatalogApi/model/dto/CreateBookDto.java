@@ -3,16 +3,14 @@ package me.tamasrigoczki.bookCatalogApi.model.dto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import me.tamasrigoczki.bookCatalogApi.model.enums.BookStatus;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class BookDto {
+public class CreateBookDto {
 
     @NotBlank(message = "id is mandatory")
     private String id;
@@ -20,8 +18,6 @@ public class BookDto {
     private String author;
     @Min(value = 1, message = "Pages must be greater than 0")
     private int pages;
-    @NotNull
-    private BookStatus status;
     @NotBlank(message = "Title is mandatory")
     private String title;
 }
