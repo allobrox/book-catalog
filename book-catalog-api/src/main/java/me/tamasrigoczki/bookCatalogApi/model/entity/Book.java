@@ -16,6 +16,8 @@ public class Book {
     private String id;
 
     private String author;
+
+    private Long collectionId;
     private int pages;
 
     @Enumerated(EnumType.STRING)
