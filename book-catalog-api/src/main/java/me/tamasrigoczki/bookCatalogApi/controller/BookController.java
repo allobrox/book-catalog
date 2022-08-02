@@ -38,4 +38,10 @@ public class BookController {
         return ResponseEntity.ok(modelMapper.map(bookService.getById(id),
                 BookDto.class));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteBook(@PathVariable String id) {
+        bookService.deleteBook(id);
+    }
 }
