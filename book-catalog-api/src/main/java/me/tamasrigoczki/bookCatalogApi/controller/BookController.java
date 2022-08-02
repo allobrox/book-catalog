@@ -25,6 +25,12 @@ public class BookController {
         bookService.addBook(modelMapper.map(bookDto, Book.class));
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void modifyBook(@Valid @RequestBody BookDto bookDto) {
+        bookService.modifyBook(modelMapper.map(bookDto, Book.class));
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BookDto> getBookById(@PathVariable String id) {

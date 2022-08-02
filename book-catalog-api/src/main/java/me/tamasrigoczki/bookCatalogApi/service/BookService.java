@@ -5,6 +5,8 @@ import me.tamasrigoczki.bookCatalogApi.model.entity.Book;
 import me.tamasrigoczki.bookCatalogApi.repository.BookRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
+
 @Component
 @AllArgsConstructor
 public class BookService {
@@ -19,7 +21,17 @@ public class BookService {
         }
     }
 
-    public Book getById(String id){
+    public void modifyBook(Book book) {
+        final String bookId = book.getId();
+        if (!bookRepository.existsById(bookId)) {
+            throw new NoSuchElementException(String.format("Book not exists! " +
+                    "ID: %s", bookId));
+        }
+        bookRepository.save(book);
+        ;
+    }
+
+    public Book getById(String id) {
         return bookRepository.findById(id).orElseThrow();
     }
 }
